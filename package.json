@@ -4,7 +4,7 @@
   "description": "Bot for Private Discord Server",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node -r ./commands.js ./app.js",
     "register": "node commands.js",
     "dev": "nodemon app.js"
   },
