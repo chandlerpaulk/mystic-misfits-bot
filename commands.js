@@ -1,5 +1,5 @@
-import 'dotenv/config';
-import { InstallGlobalCommands } from './utils.js';
+require('dotenv').config();
+const { InstallGlobalCommands } = require('./utils');
 
 const WELCOME_COMMAND = {
   name: 'welcome',
