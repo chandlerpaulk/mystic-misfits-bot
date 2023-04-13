@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import 'commands.mjs'
+import './commands.mjs'
 import express from 'express';
 import {
   InteractionType,
