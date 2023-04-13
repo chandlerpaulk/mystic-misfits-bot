@@ -39,20 +39,20 @@ app.post('/interactions', async function (req, res) {
     // Define possible resources for each action
     const actions = {
       fish: [
-        { name: 'Salmon', chance: 0.5, min: 1, max: 3 },
-        { name: 'Tuna', chance: 0.3, min: 1, max: 2 },
-        { name: 'Swordfish', chance: 0.1, min: 1, max: 1 },
-        { name: 'Shark', chance: 0.1, min: 1, max: 1 },
+        { name: 'salmon', chance: 0.5, min: 1, max: 3 },
+        { name: 'tuna', chance: 0.3, min: 1, max: 2 },
+        { name: 'swordfish', chance: 0.1, min: 1, max: 1 },
+        { name: 'shark', chance: 0.1, min: 1, max: 1 },
       ],
       mine: [
-        { name: 'Coal', chance: 0.5, min: 1, max: 3 },
-        { name: 'Iron', chance: 0.3, min: 1, max: 2 },
-        { name: 'Gold', chance: 0.1, min: 1, max: 1 },
-        { name: 'Diamond', chance: 0.05, min: 1, max: 1 },
+        { name: 'coal', chance: 0.5, min: 1, max: 3 },
+        { name: 'iron', chance: 0.3, min: 1, max: 2 },
+        { name: 'gold', chance: 0.1, min: 1, max: 1 },
+        { name: 'diamond', chance: 0.05, min: 1, max: 1 },
       ],
       chop: [
-        { name: 'Oak', chance: 0.5, min: 1, max: 5 },
-        { name: 'Birch', chance: 0.4, min: 1, max: 5 },
+        { name: 'oak', chance: 0.5, min: 1, max: 5 },
+        { name: 'birch', chance: 0.4, min: 1, max: 5 },
       ],
     };
 
