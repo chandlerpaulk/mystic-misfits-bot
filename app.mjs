@@ -5,7 +5,7 @@ import {
   InteractionType,
   InteractionResponseType,
 } from 'discord-interactions';
-import { VerifyDiscordRequest, DiscordRequest } from './utils.js';
+import { VerifyDiscordRequest, DiscordRequest } from './utils.mjs';
 
 // Create an express app
 const app = express();

@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { InstallGlobalCommands } from './utils.js';
+import { InstallGlobalCommands } from './utils.mjs';
 
 const WELCOME_COMMAND = {
   name: 'welcome',
