@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Bot for Private Discord Server",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "node -r ./app.js",
+    "start": "node -r ./commands.mjs ./app.mjs",
     "register": "node commands.js",
     "dev": "nodemon app.js"
   },

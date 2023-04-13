@@ -1,8 +1,10 @@
-const dotenv = require('dotenv');
-dotenv.config();
-const express = require('express');
-const { InteractionType, InteractionResponseType } = require('discord-interactions');
-const { VerifyDiscordRequest, DiscordRequest } = require('./utils');
+import 'dotenv/config';
+import express from 'express';
+import {
+  InteractionType,
+  InteractionResponseType,
+} from 'discord-interactions';
+import { VerifyDiscordRequest, DiscordRequest } from './utils.js';
 
 // Create an express app
 const app = express();

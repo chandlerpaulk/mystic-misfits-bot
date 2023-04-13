@@ -1,6 +1,6 @@
-require('dotenv').config();
-const fetch = require('node-fetch');
-const { verifyKey } = require('discord-interactions');
+import 'dotenv/config';
+import fetch from 'node-fetch';
+import { verifyKey } from 'discord-interactions';
 
 function VerifyDiscordRequest(clientKey) {
   return function (req, res, buf, encoding) {
