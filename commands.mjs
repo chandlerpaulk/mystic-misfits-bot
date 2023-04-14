@@ -28,9 +28,9 @@ const ACTION_COMMANDS = ACTIONS.map((action) => ({
   type: 1,
 }));
 
-const CURRENCY_COMMAND = {
-  name: 'currency',
-  description: 'Check your current currency balance.',
+const INVENTORY_COMMAND = {
+  name: 'inventory',
+  description: 'Check your current current inventory.',
   type: 1,
 };
 
@@ -83,7 +83,7 @@ const ALL_COMMANDS = [
   WELCOME_COMMAND,
   ROLL_COMMAND,
   ...ACTION_COMMANDS,
-  CURRENCY_COMMAND,
+  INVENTORY_COMMAND,
   SHOP_COMMAND,
 ];
 

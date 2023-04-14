@@ -111,8 +111,8 @@ app.post('/interactions', async function (req, res) {
         });
       }
 
-      // "currency" command
-      if (name === 'currency') {
+      // "inventory" command
+      if (name === 'inventory') {
         const userId = user.id;
 
         try {
