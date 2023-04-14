@@ -236,7 +236,10 @@ app.post('/interactions', async function (req, res) {
               });
             }
 
-            const resourceInfo = actions[name]?.find(r => r.name === resource);
+            const resourceInfo = Object.values(actions)
+              .flat()
+              .find(r => r.name === resource);
+
             const value = resourceInfo.value * amount;
 
             await UserModel.findOneAndUpdate(
