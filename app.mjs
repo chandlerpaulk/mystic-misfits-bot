@@ -105,22 +105,22 @@ app.post('/interactions', async function (req, res) {
         let response;
         switch (selectedResource.tier) {
           case 'Common':
-            response = `found **${amount} common ${selectedResource.name}**`;
+            response = `found **${amount} :white_large_square: ${selectedResource.name}**`;
             break;
           case 'Uncommon':
-            response = `discovered **${amount} uncommon ${selectedResource.name}**`;
+            response = `discovered **${amount} :green_square: ${selectedResource.name}**`;
             break;
           case 'Rare':
-            response = `unearthed **${amount} rare ${selectedResource.name}**`;
+            response = `unearthed **${amount} :blue_square: ${selectedResource.name}**`;
             break;
           case 'Epic':
-            response = `stumbled upon **${amount} epic ${selectedResource.name}**`;
+            response = `stumbled upon **${amount} :purple_square: ${selectedResource.name}**`;
             break;
           case 'Legendary':
-            response = `unveiled **${amount} legendary ${selectedResource.name}**`;
+            response = `unveiled **${amount} :large_orange_diamond: ${selectedResource.name}**`;
             break;
           case 'Mythic':
-            response = `unlocked **${amount} mythic ${selectedResource.name}**`;
+            response = `unlocked **${amount} :yellow_circle: ${selectedResource.name}**`;
             break;
         }
 
