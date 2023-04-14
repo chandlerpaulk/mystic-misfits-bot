@@ -2,8 +2,11 @@ import mongoose from 'mongoose';
 import { MongoClient } from 'mongodb';
 
 // Connect to MongoDB
-const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/bot-db' || 'mongodb+srv://chandlerpaulk59:!4!zKFHE3tt8s5S@cluster0.p5v4vfw.mongodb.net/?retryWrites=true&w=majority'
-mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/bot-db'
+mongoose.connect(DB_URI, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
