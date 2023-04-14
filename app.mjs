@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import './commands.mjs'
+import UserModel from './database.mjs';
 import express from 'express';
 import {
   InteractionType,
@@ -77,13 +78,13 @@ app.post('/interactions', async function (req, res) {
 
       // Store the resource for the user
       const userId = user.id;
-      if (!userInventory[userId]) {
-        userInventory[userId] = {};
-      }
-      if (!userInventory[userId][selectedResource.name]) {
-        userInventory[userId][selectedResource.name] = 0;
-      }
-      userInventory[userId][selectedResource.name] += amount;
+
+      // Find or create a user in the database
+      const userDoc = await UserModel.findOneAndUpdate(
+        { userId },
+        { $inc: { [`inventory.items.${selectedResource.name}`]: amount } },
+        { new: true, upsert: true, setDefaultsOnInsert: true }
+      );
 
       // Send a message with the resource and amount earned
       return res.send({
@@ -93,7 +94,6 @@ app.post('/interactions', async function (req, res) {
         },
       });
     }
-
 
     // "welcome" command
     if (name === 'welcome') {
@@ -113,26 +113,39 @@ app.post('/interactions', async function (req, res) {
     // "currency" command
     if (name === 'currency') {
       const userId = user.id;
-      const inventory = userInventory[userId] || {};
 
-      // Create an inventory display string
-      let inventoryDisplay = '';
-      for (const [item, amount] of Object.entries(inventory)) {
-        inventoryDisplay += `**${item}**: ${amount}\n`;
+      try {
+        const userRecord = await UserModel.findOne({ userId: userId });
+        const inventory = userRecord ? userRecord.inventory : {};
+
+        // Create an inventory display string
+        let inventoryDisplay = '';
+        for (const [item, amount] of Object.entries(inventory.items || {})) {
+          inventoryDisplay += `**${item}**: ${amount}\n`;
+        }
+
+        // If inventory is empty, display a message
+        if (!inventoryDisplay) {
+          inventoryDisplay = 'Your inventory is empty.';
+        }
+
+        return res.send({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            content: `Your inventory:\n${inventoryDisplay}`,
+            flags: 64, // Make the message ephemeral (Private only to the user themselves)
+          },
+        });
+      } catch (err) {
+        console.error('Error fetching user inventory:', err);
+        return res.send({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            content: `An error occurred while fetching your inventory. Please try again later.`,
+            flags: 64, // Make the message ephemeral
+          },
+        });
       }
-
-      // If inventory is empty, display a message
-      if (!inventoryDisplay) {
-        inventoryDisplay = 'Your inventory is empty.';
-      }
-
-      return res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: `Your inventory:\n${inventoryDisplay}`,
-          flags: 64, // Make the message ephemeral (Private only to the user themselves)
-        },
-      });
     }
 
     //"roll" command
@@ -162,34 +175,83 @@ app.post('/interactions', async function (req, res) {
 
       // Get the user's inventory or initialize it
       const userId = user.id;
-      if (!userInventory[userId]) {
-        userInventory[userId] = {
-          currency: 0,
-          items: {},
-        };
-      }
 
-      if (action === 'buy') {
-        const item = data.options.find(option => option.name === 'item')?.value;
+      try {
+        const userRecord = await UserModel.findOne({ userId: userId });
+        const inventory = userRecord ? userRecord.inventory : {};
 
-        const shopItem = shopItems.find(shopItem => shopItem.name === item);
-        if (!shopItem) {
+        if (action === 'buy') {
+          const item = data.options.find(option => option.name === 'item')?.value;
+
+          const shopItem = shopItems.find(shopItem => shopItem.name === item);
+          if (!shopItem) {
+            return res.send({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `**${item}** is not available in the shop.`,
+                flags: 64, // Make the message ephemeral
+              },
+            });
+          }
+
+          if (inventory.currency >= shopItem.cost) {
+            await UserModel.findOneAndUpdate(
+              { userId },
+              {
+                $inc: {
+                  'inventory.currency': -shopItem.cost,
+                  [`inventory.items.${item}`]: 1
+                },
+              }
+            );
+
+            return res.send({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `You have successfully purchased **${item}** for **${shopItem.cost}** currency.`,
+                flags: 64, // Make the message ephemeral
+              },
+            });
+          } else {
+            return res.send({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `You do not have enough currency to purchase **${item}**.`,
+                flags: 64, // Make the message ephemeral
+              },
+            });
+          }
+        } else if (action === 'sell') {
+          const resource = data.options.find(option => option.name === 'resource')?.value;
+          const amount = data.options.find(option => option.name === 'amount')?.value;
+
+          if (!inventory.items[resource] || inventory.items[resource] < amount) {
+            return res.send({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `You do not have enough **${resource}** to sell.`,
+                flags: 64, // Make the message ephemeral
+              },
+            });
+          }
+
+          const resourceInfo = actions[name]?.find(r => r.name === resource);
+          const value = resourceInfo.value * amount;
+
+          await UserModel.findOneAndUpdate(
+            { userId },
+            {
+              $inc: {
+                'inventory.currency': value,
+                [`inventory.items.${resource}`]: -amount,
+              },
+            }
+          );
+
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `**${item}** is not available in the shop.`,
-              flags: 64, // Make the message ephemeral
-            },
-          });
-        }
-
-        if (userInventory[userId].currency >= shopItem.cost) {
-          userInventory[userId].currency -= shopItem.cost;
-          userInventory[userId].items[item] = (userInventory[userId].items[item] || 0) + 1;
-          return res.send({
-            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-            data: {
-              content: `You have successfully purchased **${item}** for **${shopItem.cost}** currency.`,
+              content: `You have successfully sold **${amount} ${resource}** for **${value}** currency.`,
               flags: 64, // Make the message ephemeral
             },
           });
@@ -197,48 +259,22 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `You do not have enough currency to purchase **${item}**.`,
+              content: `Welcome to the shop! Use the following command options to buy or sell items:\n` +
+                `• \`/shop action:buy item:Sword\` - Buy a Sword for 100 currency\n` +
+                `• \`/shop action:buy item:Axe\` - Buy an Axe for 150 currency\n` +
+                `• \`/shop action:buy item:Bow\` - Buy a Bow for 200 currency\n` +
+                `• \`/shop action:sell resource:Coal amount:1\` - Sell 1 Coal resource\n` +
+                `• \`/shop action:sell resource:Iron amount:1\` - Sell 1 Iron resource`,
               flags: 64, // Make the message ephemeral
             },
           });
         }
-      } else if (action === 'sell') {
-        const resource = data.options.find(option => option.name === 'resource')?.value;
-        const amount = data.options.find(option => option.name === 'amount')?.value;
-
-        if (!userInventory[userId].items[resource] || userInventory[userId].items[resource] < amount) {
-          return res.send({
-            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-            data: {
-              content: `You do not have enough **${resource}** to sell.`,
-              flags: 64, // Make the message ephemeral
-            },
-          });
-        }
-
-        const resourceInfo = resources[name]?.find(r => r.name === resource);
-        const value = resourceInfo.value * amount;
-
-        userInventory[userId].currency += value;
-        userInventory[userId].items[resource] -= amount;
-
+      } catch (err) {
+        console.error('Error in shop command:', err);
         return res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            content: `You have successfully sold **${amount} ${resource}** for **${value}** currency.`,
-            flags: 64, // Make the message ephemeral
-          },
-        });
-      } else {
-        return res.send({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          data: {
-            content: `Welcome to the shop! Use the following command options to buy or sell items:\n` +
-              `• \`/shop action:buy item:Sword\` - Buy a Sword for 100 currency\n` +
-              `• \`/shop action:buy item:Axe\` - Buy an Axe for 150 currency\n` +
-              `• \`/shop action:buy item:Bow\` - Buy a Bow for 200 currency\n` +
-              `• \`/shop action:sell resource:Coal amount:1\` - Sell 1 Coal resource\n` +
-              `• \`/shop action:sell resource:Iron amount:1\` - Sell 1 Iron resource`,
+            content: `An error occurred while processing your request. Please try again later.`,
             flags: 64, // Make the message ephemeral
           },
         });
