@@ -41,20 +41,34 @@ app.post('/interactions', async function (req, res) {
       // Define possible resources for each action
       const actions = {
         fish: [
-          { name: 'salmon', chance: 0.5, min: 1, max: 3, value: 10 },
-          { name: 'tuna', chance: 0.3, min: 1, max: 2, value: 15 },
-          { name: 'swordfish', chance: 0.1, min: 1, max: 1, value: 25 },
-          { name: 'shark', chance: 0.1, min: 1, max: 1, value: 50 },
+          { name: 'salmon', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 10 },
+          { name: 'tuna', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 15 },
+          { name: 'swordfish', tier: 'Rare', chance: 0.15, min: 1, max: 1, value: 25 },
+          { name: 'shark', tier: 'Epic', chance: 0.07, min: 1, max: 1, value: 50 },
+          { name: 'giant squid', tier: 'Legendary', chance: 0.03, min: 1, max: 1, value: 100 },
+          { name: 'kraken', tier: 'Mythic', chance: 0.01, min: 1, max: 1, value: 200 },
         ],
         mine: [
-          { name: 'coal', chance: 0.5, min: 1, max: 3, value: 5 },
-          { name: 'iron', chance: 0.3, min: 1, max: 2, value: 10 },
-          { name: 'gold', chance: 0.1, min: 1, max: 1, value: 20 },
-          { name: 'diamond', chance: 0.05, min: 1, max: 1, value: 100 },
+          { name: 'coal', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 5 },
+          { name: 'copper', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 7 },
+          { name: 'iron', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 10 },
+          { name: 'silver', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 12 },
+          { name: 'gold', tier: 'Rare', chance: 0.15, min: 1, max: 1, value: 20 },
+          { name: 'platinum', tier: 'Rare', chance: 0.15, min: 1, max: 1, value: 22 },
+          { name: 'diamond', tier: 'Epic', chance: 0.07, min: 1, max: 1, value: 100 },
+          { name: 'ruby', tier: 'Epic', chance: 0.07, min: 1, max: 1, value: 110 },
+          { name: 'emerald', tier: 'Legendary', chance: 0.03, min: 1, max: 1, value: 200 },
+          { name: 'sapphire', tier: 'Legendary', chance: 0.03, min: 1, max: 1, value: 210 },
+          { name: 'magic crystal', tier: 'Mythic', chance: 0.01, min: 1, max: 1, value: 400 },
+          { name: 'arcane gem', tier: 'Mythic', chance: 0.01, min: 1, max: 1, value: 420 },
         ],
         chop: [
-          { name: 'oak', chance: 0.5, min: 1, max: 5, value: 5 },
-          { name: 'birch', chance: 0.4, min: 1, max: 5, value: 10 },
+          { name: 'oak', tier: 'Common', chance: 0.45, min: 1, max: 5, value: 5 },
+          { name: 'birch', tier: 'Uncommon', chance: 0.3, min: 1, max: 5, value: 10 },
+          { name: 'maple', tier: 'Rare', chance: 0.15, min: 1, max: 5, value: 15 },
+          { name: 'mahogany', tier: 'Epic', chance: 0.07, min: 1, max: 5, value: 25 },
+          { name: 'ancient oak', tier: 'Legendary', chance: 0.03, min: 1, max: 5, value: 50 },
+          { name: 'enchanted tree', tier: 'Mythic', chance: 0.01, min: 1, max: 5, value: 100 },
         ],
       };
 
@@ -87,11 +101,34 @@ app.post('/interactions', async function (req, res) {
           { new: true, upsert: true, setDefaultsOnInsert: true }
         );
 
+        // Prepare a response based on the item's rarity
+        let response;
+        switch (selectedResource.tier) {
+          case 'Common':
+            response = `found **${amount} ${selectedResource.name}**`;
+            break;
+          case 'Uncommon':
+            response = `discovered **${amount} ${selectedResource.name}**`;
+            break;
+          case 'Rare':
+            response = `unearthed **${amount} ${selectedResource.name}**`;
+            break;
+          case 'Epic':
+            response = `stumbled upon **${amount} ${selectedResource.name}**`;
+            break;
+          case 'Legendary':
+            response = `unveiled **${amount} ${selectedResource.name}**`;
+            break;
+          case 'Mythic':
+            response = `unlocked **${amount} ${selectedResource.name}**`;
+            break;
+        }
+
         // Send a message with the resource and amount earned
         return res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            content: `**${displayName}** performed a **${name}** action and obtained **${amount} ${selectedResource.name}**.`,
+            content: `**${displayName}** performed a **${name}** action and ${response}.`,
           },
         });
       }
