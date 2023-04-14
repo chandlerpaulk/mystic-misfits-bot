@@ -65,9 +65,9 @@ const SHOP_COMMAND = {
       type: 3, // String
       required: false,
       choices: [
-        { name: 'Coal', value: 'Coal' },
-        { name: 'Iron', value: 'Iron' },
-        { name: 'Gold', value: 'Gold' },
+        { name: 'coal', value: 'coal' },
+        { name: 'iron', value: 'iron' },
+        { name: 'gold', value: 'gold' },
       ],
     },
     {
