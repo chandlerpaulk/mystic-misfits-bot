@@ -370,7 +370,7 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `Your inventory:\n**Currency**: ${healthBar}\n${staminaBar}\n${currencyDisplay}\n${inventoryDisplay}`,
+              content: `Your inventory:\n**Currency**: ${currencyDisplay}\n**Health**: ${healthBar}\n**Stamina**: ${staminaBar}\n${inventoryDisplay}`,
               flags: 64, // Make the message ephemeral (Private only to the user themselves)
             },
           });
