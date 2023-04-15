@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import './commands.mjs'
-import UserModel from './database.mjs';
+import UserModel from './src/database.mjs';
 import express from 'express';
 import {
   InteractionType,
@@ -37,10 +37,6 @@ app.post('/interactions', async function (req, res) {
       const user = req.body.member?.user ?? req.body.user;
 
       console.log('Data:', data);
-
-      // Add health, stamina, and leveling system
-      const MAX_HEALTH = 100;
-      const MAX_STAMINA = 100;
 
       // Define possible resources for each action
       const actions = {
@@ -156,6 +152,10 @@ app.post('/interactions', async function (req, res) {
         });
       }
 
+      // Add health, stamina, and leveling system
+      const MAX_HEALTH = 100;
+      const MAX_STAMINA = 100;
+
       // "status" command
       if (name === 'status') {
         const userId = user.id;
@@ -165,8 +165,8 @@ app.post('/interactions', async function (req, res) {
           const { health, stamina, level, experience } = userRecord ? userRecord.stats : {};
 
           // Calculate emoji health and stamina bars
-          const healthBar = '🟩'.repeat(health) + '🟥'.repeat(MAX_HEALTH - health);
-          const staminaBar = '🟦'.repeat(stamina) + '⬜'.repeat(MAX_STAMINA - stamina);
+          const healthBar = '🟩'.repeat(Math.round(health)) + '🟥'.repeat(MAX_HEALTH - Math.round(health));
+          const staminaBar = '🟦'.repeat(Math.round(stamina)) + '⬜'.repeat(MAX_STAMINA - Math.round(stamina));
 
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -248,7 +248,7 @@ app.post('/interactions', async function (req, res) {
             if (fightOutcome) {
               // User defeats the monster
               return res.send({
-                type: InteractionResponseType.CHANNELMESSAGE_WITH_SOURCE,
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
                   content: `You encountered a **${selectedTarget.name}** and fought it bravely! With a d20 roll of **${roll}**, you defeated the monster.`,
                 },
