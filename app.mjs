@@ -163,11 +163,11 @@ app.post('/interactions', async function (req, res) {
       // "status" command
       if (name === 'status') {
         const userId = user.id;
-        console.log(userId)
 
         try {
           const userRecord = await UserModel.findOne({ userId: userId });
           const { health, stamina, level, experience } = userRecord ? userRecord.stats : {};
+          console.log(health, stamina, level, experience)
 
           // Calculate level using getLevel()
           const calculatedLevel = getLevel(experience);
