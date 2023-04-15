@@ -42,6 +42,10 @@ app.post('/interactions', async function (req, res) {
       const MAX_HEALTH = 100;
       const MAX_STAMINA = 100;
 
+      function getLevel(experience) {
+        return Math.floor(Math.sqrt(experience / 100)) + 1;
+      }
+
       // Define possible resources for each action
       const actions = {
         fish: [
@@ -164,6 +168,9 @@ app.post('/interactions', async function (req, res) {
           const userRecord = await UserModel.findOne({ userId: userId });
           const { health, stamina, level, experience } = userRecord ? userRecord.stats : {};
 
+          // Calculate level using getLevel()
+          const calculatedLevel = getLevel(experience);
+
           // Calculate emoji health and stamina bars
           const healthBar = '🟩'.repeat(health) + '🟥'.repeat(MAX_HEALTH - health);
           const staminaBar = '🟦'.repeat(stamina) + '⬜'.repeat(MAX_STAMINA - stamina);
@@ -174,7 +181,7 @@ app.post('/interactions', async function (req, res) {
               content:
                 `**Health**: ${health}/${MAX_HEALTH}\n${healthBar}\n` +
                 `**Stamina**: ${stamina}/${MAX_STAMINA}\n${staminaBar}\n` +
-                `**Level**: ${level}\n` +
+                `**Level**: ${calculatedLevel}\n` +
                 `**Experience**: ${experience}`,
               flags: 64, // Make the message ephemeral
             },
