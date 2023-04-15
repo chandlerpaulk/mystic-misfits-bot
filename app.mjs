@@ -138,22 +138,22 @@ app.post('/interactions', async function (req, res) {
             response = `missed!`;
             break;
           case 'Common':
-            response = `found :white_large_square: **${amount} ${selectedResource.name}**`;
+            response = `found :white_large_square: **${amount} ${selectedResource.name}**.`;
             break;
           case 'Uncommon':
-            response = `discovered :green_square: **${amount} ${selectedResource.name}**`;
+            response = `discovered :green_square: **${amount} ${selectedResource.name}**.`;
             break;
           case 'Rare':
-            response = `unearthed :blue_square: **${amount} ${selectedResource.name}**`;
+            response = `unearthed :blue_square: **${amount} ${selectedResource.name}**.`;
             break;
           case 'Epic':
-            response = `stumbled upon :purple_square: **${amount} ${selectedResource.name}**`;
+            response = `stumbled upon :purple_square: **${amount} ${selectedResource.name}**.`;
             break;
           case 'Legendary':
-            response = `unveiled :large_orange_diamond: **${amount} ${selectedResource.name}**`;
+            response = `unveiled :large_orange_diamond: **${amount} ${selectedResource.name}**.`;
             break;
           case 'Mythic':
-            response = `unlocked :yellow_circle: **${amount} ${selectedResource.name}**`;
+            response = `unlocked :yellow_circle: **${amount} ${selectedResource.name}**.`;
             break;
         }
 
@@ -161,7 +161,7 @@ app.post('/interactions', async function (req, res) {
         return res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            content: `**${displayName}** performed a **${name}** action and ${response}.`,
+            content: `**${displayName}** performed a **${name}** action and ${response}`,
           },
         });
       }
