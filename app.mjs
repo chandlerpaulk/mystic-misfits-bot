@@ -49,6 +49,7 @@ app.post('/interactions', async function (req, res) {
       // Define possible resources for each action
       const actions = {
         fish: [
+          { name: 'missed action', tier: 'Missed', chance: 0.15, min:0, max:0, value: 0},
           { name: 'salmon', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 10 },
           { name: 'tuna', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 15 },
           { name: 'swordfish', tier: 'Rare', chance: 0.15, min: 1, max: 1, value: 25 },
@@ -57,6 +58,7 @@ app.post('/interactions', async function (req, res) {
           { name: 'kraken', tier: 'Mythic', chance: 0.01, min: 1, max: 1, value: 200 },
         ],
         mine: [
+          { name: 'missed action', tier: 'Missed', chance: 0.15, min:0, max:0, value: 0},
           { name: 'stone', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 5 },
           { name: 'copper', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 7 },
           { name: 'iron', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 10 },
@@ -71,6 +73,7 @@ app.post('/interactions', async function (req, res) {
           { name: 'arcane gem', tier: 'Mythic', chance: 0.01, min: 1, max: 1, value: 420 },
         ],
         chop: [
+          { name: 'missed action', tier: 'Missed', chance: 0.15, min:0, max:0, value: 0},
           { name: 'oak', tier: 'Common', chance: 0.45, min: 1, max: 5, value: 5 },
           { name: 'birch', tier: 'Uncommon', chance: 0.3, min: 1, max: 5, value: 10 },
           { name: 'maple', tier: 'Rare', chance: 0.15, min: 1, max: 5, value: 15 },
@@ -131,6 +134,9 @@ app.post('/interactions', async function (req, res) {
         // Prepare a response based on the item's rarity
         let response;
         switch (selectedResource.tier) {
+          case 'Missed':
+            response = `missed!`;
+            break;
           case 'Common':
             response = `found :white_large_square: **${amount} ${selectedResource.name}**`;
             break;
