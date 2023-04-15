@@ -349,6 +349,8 @@ app.post('/interactions', async function (req, res) {
           // Create an inventory display string
           let inventoryDisplay = '';
           let currencyDisplay = inventory.currency || 0;
+          let healthBar = inventory.health;
+          let staminaBar = inventory.stamina;
 
           for (const [item, amount] of Object.entries(inventory.items || {})) {
             inventoryDisplay += `**${item}**: ${amount}\n`;
@@ -362,7 +364,7 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `Your inventory:\n**Currency**: ${currencyDisplay}\n${inventoryDisplay}`,
+              content: `Your inventory:\n**Currency**: ${healthBar}\n${staminaBar}\n${currencyDisplay}\n${inventoryDisplay}`,
               flags: 64, // Make the message ephemeral (Private only to the user themselves)
             },
           });
