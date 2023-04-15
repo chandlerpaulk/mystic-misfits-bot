@@ -176,17 +176,17 @@ app.post('/interactions', async function (req, res) {
           const healthBar = '🟩'.repeat(health) + '🟥'.repeat(MAX_HEALTH - health);
           const staminaBar = '🟦'.repeat(stamina) + '⬜'.repeat(MAX_STAMINA - stamina);
 
-          // return res.send({
-          //   type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          //   data: {
-          //     content:
-          //       `**Health**: ${health}/${MAX_HEALTH}\n${healthBar}\n` +
-          //       `**Stamina**: ${stamina}/${MAX_STAMINA}\n${staminaBar}\n` +
-          //       `**Level**: ${calculatedLevel}\n` +
-          //       `**Experience**: ${experience}`,
-          //     flags: 64, // Make the message ephemeral
-          //   },
-          // });
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content:
+                `**Health**: ${health}/${MAX_HEALTH}\n${healthBar}\n` +
+                `**Stamina**: ${stamina}/${MAX_STAMINA}\n${staminaBar}\n` +
+                `**Level**: ${calculatedLevel}\n` +
+                `**Experience**: ${experience}`,
+              flags: 64, // Make the message ephemeral
+            },
+          });
         } catch (err) {
           console.error('Error fetching user status:', err);
           return res.send({

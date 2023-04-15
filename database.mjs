@@ -18,6 +18,10 @@ db.once('open', () => {
 const userSchema = new mongoose.Schema({
   userId: String,
   inventory: {
+    health: Number,
+    stamina: Number,
+    level: Number,
+    experience: Number,
     currency: Number,
     items: Object,
   },
