@@ -28,6 +28,18 @@ const ACTION_COMMANDS = ACTIONS.map((action) => ({
   type: 1,
 }));
 
+const HUNT_COMMAND = {
+  name: 'hunt',
+  description: 'Go on a hunt to earn resources and currency',
+  type: 1,
+};
+
+const STATUS_COMMAND = {
+  name: 'status',
+  description: 'Check your current level, health, and progress',
+  type: 1,
+};
+
 const INVENTORY_COMMAND = {
   name: 'inventory',
   description: 'Check your current current inventory.',
@@ -102,6 +114,8 @@ const SHOP_COMMAND = {
 
 const ALL_COMMANDS = [
   WELCOME_COMMAND,
+  HUNT_COMMAND,
+  STATUS_COMMAND,
   ROLL_COMMAND,
   ...ACTION_COMMANDS,
   INVENTORY_COMMAND,
