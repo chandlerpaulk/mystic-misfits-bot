@@ -181,9 +181,9 @@ app.post('/interactions', async function (req, res) {
             data: {
               content:
                 `**Health**: ${health}/${MAX_HEALTH}\n${healthBar}\n` +
-                `**Stamina**: ${stamina}/${MAX_STAMINA}\n${staminaBar}\n` +
-                `**Level**: ${calculatedLevel}\n` +
-                `**Experience**: ${experience}`,
+                `**Stamina**: ${stamina}/${MAX_STAMINA}\n${staminaBar}\n`,
+                // `**Level**: ${calculatedLevel}\n` +
+                // `**Experience**: ${experience}`,
               flags: 64, // Make the message ephemeral
             },
           });
