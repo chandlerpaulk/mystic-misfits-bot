@@ -53,7 +53,7 @@ app.post('/interactions', async function (req, res) {
           { name: 'kraken', tier: 'Mythic', chance: 0.01, min: 1, max: 1, value: 200 },
         ],
         mine: [
-          { name: 'coal', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 5 },
+          { name: 'stone', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 5 },
           { name: 'copper', tier: 'Common', chance: 0.45, min: 1, max: 3, value: 7 },
           { name: 'iron', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 10 },
           { name: 'silver', tier: 'Uncommon', chance: 0.3, min: 1, max: 2, value: 12 },
@@ -78,6 +78,25 @@ app.post('/interactions', async function (req, res) {
 
       // "mine", "chop", and "fish" commands
       if (Object.keys(actions).includes(name)) {
+
+        // Define allowed channel IDs for each command
+        const allowedChannels = {
+          mine: '1096060784389398578',
+          chop: '1096060820573655070',
+          fish: '1096061508015882304',
+        };
+
+        // Check if the command is being executed in the allowed channel
+        const channelId = req.body.channel_id;
+        if (allowedChannels[name] !== channelId) {
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: `Sorry, the **${name}** command can only be used in the designated channel(s).`,
+            },
+          });
+        }
+
         // Get the user's nickname or fallback to the username if the nickname is not set
         const displayName = req.body.member ? (req.body.member.nick || user.username) : user.username;
 
@@ -140,15 +159,15 @@ app.post('/interactions', async function (req, res) {
       // "status" command
       if (name === 'status') {
         const userId = user.id;
-    
+
         try {
           const userRecord = await UserModel.findOne({ userId: userId });
           const { health, stamina, level, experience } = userRecord ? userRecord.stats : {};
-    
+
           // Calculate emoji health and stamina bars
           const healthBar = '🟩'.repeat(health) + '🟥'.repeat(MAX_HEALTH - health);
           const staminaBar = '🟦'.repeat(stamina) + '⬜'.repeat(MAX_STAMINA - stamina);
-    
+
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -174,6 +193,19 @@ app.post('/interactions', async function (req, res) {
 
       // "hunt" command
       if (name === 'hunt') {
+
+        // Check if the command was executed in the desired channel
+        if (req.body.channel_id !== '1096060820573655070') {
+          // Send a message informing the user that this command can only be used in the specific channel
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: 'The command can only be used in the designated channel(s).',
+              flags: 64, // Make the message ephemeral
+            },
+          });
+        }
+
         const animals = [
           { name: 'rabbit', tier: 'Common', chance: 0.4, value: 5 },
           { name: 'deer', tier: 'Uncommon', chance: 0.3, value: 15 },
@@ -183,9 +215,9 @@ app.post('/interactions', async function (req, res) {
           { name: 'dragon', tier: 'Mythic', chance: 0.01, value: 250 },
         ];
         const monster = { name: 'monster', tier: 'Mythic', chance: 0.1, value: 0 };
-    
+
         const huntTargets = animals.concat([monster]);
-    
+
         // Find the hunted animal or monster
         let randomValue = Math.random();
         let selectedTarget;
@@ -196,11 +228,11 @@ app.post('/interactions', async function (req, res) {
           }
           randomValue -= target.chance;
         }
-    
+
         if (selectedTarget.name === 'monster') {
           // The user encountered a monster
           const roll = Math.floor(Math.random() * 20) + 1;
-    
+
           // Check if the user evades or defeats the monster
           if (roll >= 10) {
             // User evades the monster
@@ -236,19 +268,19 @@ app.post('/interactions', async function (req, res) {
           try {
             const userId = user.id;
             const userRecord = await UserModel.findOne({ userId: userId });
-    
+
             if (userRecord) {
               // Add the caught animal to the user's inventory
               userRecord.inventory[selectedTarget.name] =
                 (userRecord.inventory[selectedTarget.name] || 0) + 1;
-    
+
               // Add experience and level up if necessary
               userRecord.stats.experience += selectedTarget.value;
               while (userRecord.stats.experience >= userRecord.stats.level * 100) {
                 userRecord.stats.experience -= userRecord.stats.level * 100;
                 userRecord.stats.level += 1;
               }
-    
+
               await userRecord.save();
             } else {
               // Create a new user record with the caught animal
@@ -263,7 +295,7 @@ app.post('/interactions', async function (req, res) {
                 },
               });
             }
-    
+
             return res.send({
               type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
               data: {

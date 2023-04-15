@@ -83,7 +83,7 @@ const SHOP_COMMAND = {
         { name: 'shark', tier: 'Epic', value: 'shark' },
         { name: 'giant squid', tier: 'Legendary', value: 'giant squid' },
         { name: 'kraken', tier: 'Mythic', value: 'kraken' },
-        { name: 'coal', tier: 'Common', value: 'coal' },
+        { name: 'stone', tier: 'Common', value: 'stone' },
         { name: 'copper', tier: 'Common', value: 'copper' },
         { name: 'iron', tier: 'Uncommon', value: 'iron' },
         { name: 'silver', tier: 'Uncommon', value: 'silver' },
