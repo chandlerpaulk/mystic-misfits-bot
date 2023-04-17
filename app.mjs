@@ -197,7 +197,7 @@ app.post('/interactions', async function (req, res) {
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
               content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. Unfortunately, you have been defeated.`,
-              attachments: [embed],
+              embeds: [embed],
             },
           });
         } else {
@@ -206,7 +206,7 @@ app.post('/interactions', async function (req, res) {
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
               content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${selectedLoot.name}**!`,
-              attachments: [embed],
+              embeds: [embed],
             },
           });
         }
