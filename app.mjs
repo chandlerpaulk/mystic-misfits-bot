@@ -49,7 +49,7 @@ app.post('/interactions', async function (req, res) {
       // Define possible resources for each action
       const actions = {
         fish: [
-          { name: 'missed actions', tier: 'Missed', chance: 0.15, min: 1, max: 1, value: 0},
+          { name: 'missed action', tier: 'Missed', chance: 0.15, min: 1, max: 1, value: 0},
           { name: 'salmon', tier: 'Common', chance: 0.40, min: 1, max: 3, value: 10 },
           { name: 'tuna', tier: 'Uncommon', chance: 0.25, min: 1, max: 2, value: 15 },
           { name: 'swordfish', tier: 'Rare', chance: 0.10, min: 1, max: 1, value: 25 },
