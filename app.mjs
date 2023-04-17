@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import './commands.mjs';
-import { actions, monsters, shopItems } from './src/loot.mjs'
+import { actions, monsters, shopItems } from './public/loot.mjs'
 import UserModel from './database.mjs';
 import express from 'express';
 import {
