@@ -9,6 +9,7 @@ import {
 } from 'discord-interactions';
 import { VerifyDiscordRequest, DiscordRequest } from './utils.mjs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Create an express app
 const app = express();
@@ -16,6 +17,9 @@ const app = express();
 const PORT = process.env.PORT || 3000
 // Parse request body and verifies incoming requests using discord-interactions package
 app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Serve the static files from the "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
