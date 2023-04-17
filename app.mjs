@@ -127,6 +127,9 @@ app.post('/interactions', async function (req, res) {
             },
           });
         }
+
+        const displayName = req.body.member ? (req.body.member.nick || user.username) : user.username;
+        
         // Select a random monster to encounter
         let randomValue = Math.random();
         let selectedMonster;
