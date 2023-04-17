@@ -41,7 +41,7 @@ export const monsters = [
     name: 'Goblin',
     health: 10,
     chance: 0.4,
-    imageUrl: 'https://github.com/chandlerpaulk/mystic-misfits-bot/blob/main/src/img/goblin.png',
+    imageUrl: './img/goblin.png',
     loot: [
       { name: 'Rusty Sword', chance: 0.5 },
       { name: 'Goblin Tooth', chance: 0.3 },
@@ -52,7 +52,7 @@ export const monsters = [
     name: 'Wolf',
     health: 20,
     chance: 0.3,
-    imageUrl: 'https://github.com/chandlerpaulk/mystic-misfits-bot/blob/main/src/img/wolf.png',
+    imageUrl: './img/wolf.png',
     loot: [
       { name: 'Wolf Pelt', chance: 0.6 },
       { name: 'Wolf Fang', chance: 0.3 },
@@ -63,7 +63,7 @@ export const monsters = [
     name: 'Dragon',
     health: 50,
     chance: 0.1,
-    imageUrl: 'https://github.com/chandlerpaulk/mystic-misfits-bot/blob/main/src/img/dragon.png',
+    imageUrl: './img/dragon.png',
     loot: [
       { name: 'Dragon Scale', chance: 0.4 },
       { name: 'Dragon Bone', chance: 0.3 },
@@ -75,7 +75,7 @@ export const monsters = [
     name: 'Giant Spider',
     health: 30,
     chance: 0.2,
-    imageUrl: 'https://github.com/chandlerpaulk/mystic-misfits-bot/blob/main/src/img/giant-spider.png',
+    imageUrl: './img/giant-spider.png',
     loot: [
       { name: 'Spider Silk', chance: 0.5 },
       { name: 'Spider Leg', chance: 0.4 },
