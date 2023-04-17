@@ -191,6 +191,8 @@ app.post('/interactions', async function (req, res) {
           },
         };
 
+        console.log('Embed object:', embed);
+
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
           return res.send({
