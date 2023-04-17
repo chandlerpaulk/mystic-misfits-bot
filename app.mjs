@@ -38,6 +38,17 @@ app.post('/interactions', async function (req, res) {
         hunt: '1097517896621637712', // This is the id of #monster-hunt
       };
 
+      // Loot modifer for when user is battling
+      async function updateLootModifier(userId) {
+        // Adjust the modifier value to increase or decrease the improvement in loot chances
+        const modifierValue = 0.1;
+        await UserModel.findOneAndUpdate(
+          { userId },
+          { $inc: { 'stats.lootModifier': modifierValue } },
+          { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+      }      
+
       // "mine", "chop", and "fish" commands
       if (Object.keys(actions).includes(name)) {
 
@@ -161,7 +172,7 @@ app.post('/interactions', async function (req, res) {
         const remainingHealth = userDoc.inventory.health;
       
         // Update loot modifier for user
-        await updateLootModifier(userId);
+        // await updateLootModifier(userId);
       
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
