@@ -155,7 +155,7 @@ app.post('/interactions', async function (req, res) {
         );
 
         // Check if the user has any health left
-        const remainingHealth = userDoc.inventory.health - healthLoss;
+        const remainingHealth = userDoc.inventory.health;
 
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
