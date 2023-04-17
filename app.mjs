@@ -157,22 +157,31 @@ app.post('/interactions', async function (req, res) {
         const healthLoss = Math.floor(Math.random() * (selectedMonster.health / 2)) + 1;
       
         // Select a random loot item
-        const lootIndex = Math.floor(Math.random() * selectedMonster.loot.length);
-        const loot = selectedMonster.loot[lootIndex];
+        let lootRandomValue = Math.random();
+        let selectedLoot;
+        for (const lootItem of selectedMonster.loot) {
+          if (lootRandomValue < lootItem.chance) {
+            selectedLoot = lootItem;
+            break;
+          }
+          lootRandomValue -= lootItem.chance;
+        }
       
         // Update user's health and inventory in the database
         const userId = user.id;
         const userDoc = await UserModel.findOneAndUpdate(
           { userId },
-          { $inc: { 'inventory.health': -healthLoss, [`inventory.${loot}`]: 1 } },
+          {
+            $inc: {
+              'inventory.health': -healthLoss,
+              [`inventory.items.${selectedLoot.name}`]: 1,
+            },
+          },
           { new: true, upsert: true, setDefaultsOnInsert: true }
         );
       
         // Check if the user has any health left
         const remainingHealth = userDoc.inventory.health;
-      
-        // Update loot modifier for user
-        // await updateLootModifier(userId);
       
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
@@ -187,7 +196,7 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${loot}**!`,
+              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${selectedLoot.name}**!`,
             },
           });
         }
