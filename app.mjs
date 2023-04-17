@@ -294,6 +294,9 @@ app.post('/interactions', async function (req, res) {
           const userRecord = await UserModel.findOne({ userId: userId });
           const inventory = userRecord ? userRecord.inventory : {};
 
+          // Convert the Map to a plain JavaScript object
+          const itemsObject = Object.fromEntries(inventory.items || {});
+
           if (action === 'buy') {
             const item = data.options.find(option => option.name === 'item')?.value;
 
@@ -339,7 +342,7 @@ app.post('/interactions', async function (req, res) {
             const resource = data.options.find(option => option.name === 'resource')?.value;
             const amount = data.options.find(option => option.name === 'amount')?.value;
 
-            if (!inventory.items[resource] || inventory.items[resource] < amount) {
+            if (!itemsObject[resource] || itemsObject[resource] < amount) {
               return res.send({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
