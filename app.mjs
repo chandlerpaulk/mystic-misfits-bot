@@ -7,6 +7,7 @@ import {
   InteractionType,
   InteractionResponseType,
 } from 'discord-interactions';
+import { VerifyDiscordRequest, DiscordRequest } from './utils.mjs';
 
 // Create an express app
 const app = express();
@@ -128,8 +129,9 @@ app.post('/interactions', async function (req, res) {
           });
         }
 
+        // Get the user's nickname or fallback to the username if the nickname is not set
         const displayName = req.body.member ? (req.body.member.nick || user.username) : user.username;
-        
+
         // Select a random monster to encounter
         let randomValue = Math.random();
         let selectedMonster;
