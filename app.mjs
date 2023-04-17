@@ -183,12 +183,21 @@ app.post('/interactions', async function (req, res) {
         // Check if the user has any health left
         const remainingHealth = userDoc.inventory.health;
 
+        // Prepare embed for the monster image
+        const embed = {
+          title: `Encounter: ${selectedMonster.name}`,
+          image: {
+            url: selectedMonster.imageUrl, // You should add an imageUrl property to your monster objects
+          },
+        };
+
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
               content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. Unfortunately, you have been defeated.`,
+              embeds: [embed],
             },
           });
         } else {
@@ -197,6 +206,7 @@ app.post('/interactions', async function (req, res) {
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
               content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${selectedLoot.name}**!`,
+              embeds: [embed],
             },
           });
         }
