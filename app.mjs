@@ -47,7 +47,7 @@ app.post('/interactions', async function (req, res) {
           { $inc: { 'stats.lootModifier': modifierValue } },
           { new: true, upsert: true, setDefaultsOnInsert: true }
         );
-      }      
+      }
 
       // "mine", "chop", and "fish" commands
       if (Object.keys(actions).includes(name)) {
@@ -138,10 +138,10 @@ app.post('/interactions', async function (req, res) {
             },
           });
         }
-      
+
         // Get the user's nickname or fallback to the username if the nickname is not set
         const displayName = req.body.member ? (req.body.member.nick || user.username) : user.username;
-      
+
         // Select a random monster to encounter
         let randomValue = Math.random();
         let selectedMonster;
@@ -152,10 +152,10 @@ app.post('/interactions', async function (req, res) {
           }
           randomValue -= monster.chance;
         }
-      
+
         // Calculate health loss
         const healthLoss = Math.floor(Math.random() * (selectedMonster.health / 2)) + 1;
-      
+
         // Select a random loot item
         let lootRandomValue = Math.random();
         let selectedLoot;
@@ -166,7 +166,7 @@ app.post('/interactions', async function (req, res) {
           }
           lootRandomValue -= lootItem.chance;
         }
-      
+
         // Update user's health and inventory in the database
         const userId = user.id;
         const userDoc = await UserModel.findOneAndUpdate(
@@ -179,10 +179,10 @@ app.post('/interactions', async function (req, res) {
           },
           { new: true, upsert: true, setDefaultsOnInsert: true }
         );
-      
+
         // Check if the user has any health left
         const remainingHealth = userDoc.inventory.health;
-      
+
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
           return res.send({
@@ -200,7 +200,7 @@ app.post('/interactions', async function (req, res) {
             },
           });
         }
-      }      
+      }
 
       // "welcome" command
       if (name === 'welcome') {
@@ -231,7 +231,10 @@ app.post('/interactions', async function (req, res) {
           let healthBar = inventory.health || 100;
           let staminaBar = inventory.stamina || 100;
 
-          for (const [item, amount] of Object.entries(inventory.items || {})) {
+          // Convert the Map to a plain JavaScript object
+          const itemsObject = Object.fromEntries(inventory.items || {});
+
+          for (const [item, amount] of Object.entries(itemsObject)) {
             inventoryDisplay += `**${item}**: ${amount}\n`;
           }
 
