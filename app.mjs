@@ -140,8 +140,8 @@ app.post('/interactions', async function (req, res) {
           // Create an inventory display string
           let inventoryDisplay = '';
           let currencyDisplay = inventory.currency || 0;
-          let healthBar = inventory.health;
-          let staminaBar = inventory.stamina;
+          let healthBar = inventory.health || 100;
+          let staminaBar = inventory.stamina || 100;
 
           for (const [item, amount] of Object.entries(inventory.items || {})) {
             inventoryDisplay += `**${item}**: ${amount}\n`;
