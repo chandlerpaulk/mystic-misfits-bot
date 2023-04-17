@@ -37,10 +37,47 @@ export const actions = {
 
 // Create monsters array
 export const monsters = [
-  { name: 'Slime', health: 15, chance: 0.4 },
-  { name: 'Goblin', health: 25, chance: 0.3 },
-  { name: 'Ogre', health: 50, chance: 0.2 },
-  { name: 'Dragon', health: 100, chance: 0.1 },
+  {
+    name: 'Goblin',
+    health: 10,
+    chance: 0.4,
+    loot: [
+      { name: 'Rusty Sword', chance: 0.5 },
+      { name: 'Goblin Tooth', chance: 0.3 },
+      { name: 'Goblin Armour', chance: 0.2 },
+    ],
+  },
+  {
+    name: 'Wolf',
+    health: 20,
+    chance: 0.3,
+    loot: [
+      { name: 'Wolf Pelt', chance: 0.6 },
+      { name: 'Wolf Fang', chance: 0.3 },
+      { name: 'Wolf Claw', chance: 0.1 },
+    ],
+  },
+  {
+    name: 'Dragon',
+    health: 50,
+    chance: 0.1,
+    loot: [
+      { name: 'Dragon Scale', chance: 0.4 },
+      { name: 'Dragon Bone', chance: 0.3 },
+      { name: 'Dragon Tooth', chance: 0.2 },
+      { name: 'Dragon Egg', chance: 0.1 },
+    ],
+  },
+  {
+    name: 'Giant Spider',
+    health: 30,
+    chance: 0.2,
+    loot: [
+      { name: 'Spider Silk', chance: 0.5 },
+      { name: 'Spider Leg', chance: 0.4 },
+      { name: 'Spider Venom', chance: 0.1 },
+    ],
+  },
 ];
 
 // Define items found in the user's shop
