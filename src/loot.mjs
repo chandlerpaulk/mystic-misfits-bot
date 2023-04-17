@@ -35,6 +35,14 @@ export const actions = {
   ],
 };
 
+// Create monsters array
+export const monsters = [
+  { name: 'Slime', health: 15, chance: 0.4 },
+  { name: 'Goblin', health: 25, chance: 0.3 },
+  { name: 'Ogre', health: 50, chance: 0.2 },
+  { name: 'Dragon', health: 100, chance: 0.1 },
+];
+
 // Define items found in the user's shop
 export const shopItems = [
   { name: 'Sword', type: 'weapon', cost: 100 },

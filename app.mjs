@@ -30,15 +30,16 @@ app.post('/interactions', async function (req, res) {
 
       console.log('Data:', data);
 
+      // Define allowed channel IDs for each command
+      const allowedChannels = {
+        mine: '1096060784389398578', // This is the id of #mithril-mines
+        chop: '1096060820573655070', // This is the id of #enchanted-forest
+        fish: '1096061508015882304', // This is the id of #celestial-river
+        hunt: '1097517896621637712', // This is the id of #monster-hunt
+      };
+
       // "mine", "chop", and "fish" commands
       if (Object.keys(actions).includes(name)) {
-
-        // Define allowed channel IDs for each command
-        const allowedChannels = {
-          mine: '1096060784389398578', // This is the id of #mithril-mines
-          chop: '1096060820573655070', // This is the id of #enchanted-forest
-          fish: '1096061508015882304', // This is the id of #celestial-river
-        };
 
         // Check if the command is being executed in the allowed channel
         const channelId = req.body.channel_id;
@@ -112,6 +113,63 @@ app.post('/interactions', async function (req, res) {
             content: `**${displayName}** performed a **${name}** action and ${response}`,
           },
         });
+      }
+
+      // "hunt" command
+      if (name === 'hunt') {
+        // Check if the command is being executed in the allowed channel
+        const channelId = req.body.channel_id;
+        if (allowedChannels[name] !== channelId) {
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: `Sorry, the **${name}** command can only be used in the designated channel.`,
+              flags: 64, // Can only be seen by the user who performed the command
+            },
+          });
+        }
+        // Select a random monster to encounter
+        let randomValue = Math.random();
+        let selectedMonster;
+        for (const monster of monsters) {
+          if (randomValue < monster.chance) {
+            selectedMonster = monster;
+            break;
+          }
+          randomValue -= monster.chance;
+        }
+
+        // Calculate health loss
+        const healthLoss = Math.floor(Math.random() * (selectedMonster.health / 2)) + 1;
+
+        // Update user's health in the database
+        const userId = user.id;
+        const userDoc = await UserModel.findOneAndUpdate(
+          { userId },
+          { $inc: { 'inventory.health': -healthLoss } },
+          { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+
+        // Check if the user has any health left
+        const remainingHealth = userDoc.inventory.health - healthLoss;
+
+        if (remainingHealth <= 0) {
+          // Notify the user that they have been defeated
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. Unfortunately, you have been defeated.`,
+            },
+          });
+        } else {
+          // Notify the user of their health loss and remaining health
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left.`,
+            },
+          });
+        }
       }
 
       // "welcome" command
