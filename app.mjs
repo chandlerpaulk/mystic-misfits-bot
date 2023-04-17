@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import './commands.mjs';
-import { actions, shopItems, handleAction } from './src/loot.mjs'
+import { actions, shopItems } from './src/loot.mjs'
+import { handleAction } from './src/actions.mjs';
 import UserModel from './database.mjs';
 import express from 'express';
 import {
