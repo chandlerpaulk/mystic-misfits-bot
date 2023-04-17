@@ -32,7 +32,6 @@ app.post('/interactions', async function (req, res) {
 
       // "mine", "chop", and "fish" commands
       if (Object.keys(actions).includes(name)) {
-        handleAction(name, req, res);
 
         // Define allowed channel IDs for each command
         const allowedChannels = {
