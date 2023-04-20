@@ -40,6 +40,25 @@ const INVENTORY_COMMAND = {
   type: 1,
 };
 
+const USE_COMMAND = {
+  name: 'use',
+  description: 'Use an item from your inventory.',
+  type: 1,
+  options: [
+    {
+      name: 'item',
+      description: 'The item to use.',
+      type: 3, // String type
+      required: true,
+      choices: [
+        { name: 'Herb', value: 'Herb' },
+        { name: 'Mushroom', value: 'Mushroom' },
+        { name: 'Berry', value: 'Berry' },
+      ],
+    },
+  ],
+};
+
 const SHOP_COMMAND = {
   name: 'shop',
   description: 'Interact with the shop to buy weapons or sell resources',
@@ -112,6 +131,7 @@ const ALL_COMMANDS = [
   ROLL_COMMAND,
   ...ACTION_COMMANDS,
   INVENTORY_COMMAND,
+  USE_COMMAND,
   SHOP_COMMAND,
 ];
 

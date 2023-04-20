@@ -366,6 +366,58 @@ app.post('/interactions', async function (req, res) {
         }
       }
 
+      if (name === 'use') {
+        const userId = user.id;
+        const item = options[0].value;
+      
+        try {
+          const userRecord = await UserModel.findOne({ userId: userId });
+          const inventory = userRecord ? userRecord.inventory : {};
+      
+          const itemAmount = inventory.items.get(item);
+      
+          if (itemAmount > 0) {
+            inventory.items.set(item, itemAmount - 1);
+      
+            if (item === 'Herb') {
+              inventory.health = Math.min(100, inventory.health + 10);
+            } else if (item === 'Mushroom') {
+              inventory.stamina = Math.min(100, inventory.stamina + 10);
+            } else if (item === 'Berry') {
+              inventory.health = Math.min(100, inventory.health + 5);
+              inventory.stamina = Math.min(100, inventory.stamina + 5);
+            }
+      
+            await UserModel.updateOne({ userId: userId }, { inventory: inventory });
+      
+            return res.send({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `You used a ${item}!`,
+                flags: 64, // Make the message ephemeral
+              },
+            });
+          } else {
+            return res.send({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `You don't have any ${item}s in your inventory.`,
+                flags: 64, // Make the message ephemeral
+              },
+            });
+          }
+        } catch (err) {
+          console.error('Error using item:', err);
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: `An error occurred while using the item. Please try again later.`,
+              flags: 64, // Make the message ephemeral
+            },
+          });
+        }
+      }      
+
       //"roll" command
       if (name === 'roll') {
         const { options } = data;
