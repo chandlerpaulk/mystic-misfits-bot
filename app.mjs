@@ -261,19 +261,74 @@ app.post('/interactions', async function (req, res) {
             consumables: [],
             materials: [],
             misc: [],
+            fish: [],
+            gems: [],
+            creature_loot: [],
           };
 
           for (const [item, amount] of Object.entries(itemsObject)) {
             // Assign the items to the corresponding categories
-            // This is an example; you can add more categories and items as needed
-            if (['Rusty Sword', 'Dragon Tooth'].includes(item)) {
+            if (['Rusty Sword', 'Dragon Tooth', 'Sword'].includes(item)) {
               categories.weapons.push(`**${item}**: ${amount}`);
             } else if (['Goblin Armour', 'Wolf Pelt'].includes(item)) {
               categories.armor.push(`**${item}**: ${amount}`);
             } else if (['Mushroom', 'Berry', 'Herb'].includes(item)) {
               categories.consumables.push(`**${item}**: ${amount}`);
-            } else if (['Stick', 'Stone', 'Spider Silk'].includes(item)) {
+            } else if (
+              [
+                'iron',
+                'birch',
+                'oak',
+                'copper',
+                'maple',
+                'mahogany',
+                'ancient oak',
+                'stone',
+                'silver',
+                'gold',
+                'platinum',
+                'enchanted tree',
+              ].includes(item)
+            ) {
               categories.materials.push(`**${item}**: ${amount}`);
+            } else if (
+              [
+                'salmon',
+                'tuna',
+                'swordfish',
+                'giant squid',
+                'shark',
+                'kraken',
+              ].includes(item)
+            ) {
+              categories.fish.push(`**${item}**: ${amount}`);
+            } else if (
+              [
+                'ruby',
+                'diamond',
+                'emerald',
+                'sapphire',
+                'magic crystal',
+              ].includes(item)
+            ) {
+              categories.gems.push(`**${item}**: ${amount}`);
+            } else if (
+              [
+                'Wolf Claw',
+                'Spider Leg',
+                'Dragon Bone',
+                'Wolf Fang',
+                'Goblin Tooth',
+                'Dragon Scale',
+                'Spider Venom',
+                'Dragon Egg',
+                'Squirrel Pelt',
+                'Rabbit Foot',
+                'Squirrel Tail',
+                'Squirrel Meat',
+              ].includes(item)
+            ) {
+              categories.creature_loot.push(`**${item}**: ${amount}`);
             } else {
               categories.misc.push(`**${item}**: ${amount}`);
             }
