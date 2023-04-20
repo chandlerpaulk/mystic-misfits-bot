@@ -237,51 +237,7 @@ app.post('/interactions', async function (req, res) {
           },
         });
       }
-
-      // // "inventory" command
-      // if (name === 'inventory') {
-      //   const userId = user.id;
-
-      //   try {
-      //     const userRecord = await UserModel.findOne({ userId: userId });
-      //     const inventory = userRecord ? userRecord.inventory : {};
-
-      //     // Create an inventory display string
-      //     let inventoryDisplay = '';
-      //     let currencyDisplay = inventory.currency || 0;
-      //     let healthBar = inventory.health || 100;
-      //     let staminaBar = inventory.stamina || 100;
-
-      //     // Convert the Map to a plain JavaScript object
-      //     const itemsObject = Object.fromEntries(inventory.items || {});
-
-      //     for (const [item, amount] of Object.entries(itemsObject)) {
-      //       inventoryDisplay += `**${item}**: ${amount}\n`;
-      //     }
-
-      //     // If inventory is empty, display a message
-      //     if (!inventoryDisplay) {
-      //       inventoryDisplay = 'Your inventory is empty.';
-      //     }
-
-      //     return res.send({
-      //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      //       data: {
-      //         content: `Your inventory:\n**Currency**: ${currencyDisplay}\n**Health**: ${healthBar}\n**Stamina**: ${staminaBar}\n${inventoryDisplay}`,
-      //         flags: 64, // Make the message ephemeral (Private only to the user themselves)
-      //       },
-      //     });
-      //   } catch (err) {
-      //     console.error('Error fetching user inventory:', err);
-      //     return res.send({
-      //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      //       data: {
-      //         content: `An error occurred while fetching your inventory. Please try again later.`,
-      //         flags: 64, // Make the message ephemeral
-      //       },
-      //     });
-      //   }
-      // }
+      
       // "inventory" command
       if (name === 'inventory') {
         const userId = user.id;
@@ -354,7 +310,6 @@ app.post('/interactions', async function (req, res) {
           });
         }
       }
-
 
       //"roll" command
       if (name === 'roll') {
