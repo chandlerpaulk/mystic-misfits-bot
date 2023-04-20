@@ -16,10 +16,10 @@
 
 ## Installing with Node.js
 
-Install Dependencies: With the previous steps completed, you are now ready to launch your new bot. Navigate to your project folder's command-line interface (CLI) and run 'npm install' to install the necessary dependencies.
+1. Install Dependencies: With the previous steps completed, you are now ready to launch your new bot. Navigate to your project folder's command-line interface (CLI) and run 'npm install' to install the necessary dependencies.
 
-Install Commands: Execute the command 'node command.js' to incorporate the commands into your bot's interface.
+2. Install Commands: Execute the command 'node command.js' to incorporate the commands into your bot's interface.
 
-Deploy Your Bot: Run 'node app.js' to activate your bot.
+3. Deploy Your Bot: Run 'node app.js' to activate your bot.
 
-Test Your Bot: Visit your Discord server to test your newly installed and configured bot.
+4. Test Your Bot: Visit your Discord server to test your newly installed and configured bot.
