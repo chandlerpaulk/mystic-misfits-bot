@@ -149,7 +149,7 @@ export const creatures = [
   {
     name: 'Dragon',
     health: 50,
-    chance: 0.1,
+    chance: 0.001,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/dragon.png',
     loot: [
       { name: 'Dragon Scale', chance: 0.4, min: 1, max: 3 },
@@ -161,7 +161,7 @@ export const creatures = [
   {
     name: 'Giant Spider',
     health: 30,
-    chance: 0.2,
+    chance: 0.019,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/giant-spider.png',
     loot: [
       { name: 'Spider Silk', chance: 0.5, min: 1, max: 3 },
