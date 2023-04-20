@@ -237,7 +237,7 @@ app.post('/interactions', async function (req, res) {
           },
         });
       }
-      
+
       // "inventory" command
       if (name === 'inventory') {
         const userId = user.id;
@@ -282,7 +282,7 @@ app.post('/interactions', async function (req, res) {
           // Format the inventory display
           for (const [category, items] of Object.entries(categories)) {
             if (items.length > 0) {
-              inventoryDisplay += `\n**${category.charAt(0).toUpperCase() + category.slice(1)}**\n`;
+              inventoryDisplay += `\n\n**${category.charAt(0).toUpperCase() + category.slice(1)}**\n`;
               inventoryDisplay += items.join('\n');
             }
           }
