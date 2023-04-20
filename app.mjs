@@ -43,7 +43,7 @@ app.post('/interactions', async function (req, res) {
         mine: '1096060784389398578', // This is the id of #mithril-mines
         chop: '1096060820573655070', // This is the id of #enchanted-forest
         fish: '1096061508015882304', // This is the id of #celestial-river
-        hunt: '1097517896621637712', // This is the id of #creature-hunt
+        explore: '1097517896621637712', // This is the id of #creature-hunt
       };
 
       // Loot modifer for when user is battling
