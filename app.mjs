@@ -184,7 +184,7 @@ app.post('/interactions', async function (req, res) {
           {
             $inc: {
               'inventory.health': -healthLoss,
-              'inventory.mana': -manaLoss,
+              'inventory.stamina': -manaLoss,
               [`inventory.items.${selectedLoot.name}`]: amount,
             },
           },
