@@ -3,7 +3,7 @@ import { InstallGlobalCommands } from './utils.mjs';
 
 const WELCOME_COMMAND = {
   name: 'welcome',
-  description: 'Glyph will tell you everything he can do',
+  description: 'Your Glyph will tell you hello',
   type: 1,
 };
 
@@ -24,19 +24,13 @@ const ACTIONS = ['fish', 'mine', 'chop'];
 
 const ACTION_COMMANDS = ACTIONS.map((action) => ({
   name: action,
-  description: `Perform a ${action} action to earn currency.`,
+  description: `Perform a ${action} action to obtain resources.`,
   type: 1,
 }));
 
 const HUNT_COMMAND = {
   name: 'hunt',
-  description: 'Go on a hunt to earn resources and currency',
-  type: 1,
-};
-
-const STATUS_COMMAND = {
-  name: 'status',
-  description: 'Check your current level, health, and progress',
+  description: 'Go on a hunt to obtain resources.',
   type: 1,
 };
 
