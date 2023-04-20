@@ -177,7 +177,7 @@ app.post('/interactions', async function (req, res) {
 
         // Update user's health and inventory in the database
         const userId = user.id;
-        const amount = Math.floor(Math.random() * (selectedMonster.loot.max - selectedMonster.loot.min + 1)) + selectedMonster.min;
+        const amount = Math.floor(Math.random() * (selectedLoot.max - selectedLoot.min + 1)) + selectedLoot.min;
         const userDoc = await UserModel.findOneAndUpdate(
           { userId },
           {
