@@ -177,12 +177,13 @@ app.post('/interactions', async function (req, res) {
 
         // Update user's health and inventory in the database
         const userId = user.id;
+        const amount = Math.floor(Math.random() * (selectedMonster.loot.max - selectedMonster.loot.min + 1)) + selectedMonster.min;
         const userDoc = await UserModel.findOneAndUpdate(
           { userId },
           {
             $inc: {
               'inventory.health': -healthLoss,
-              [`inventory.items.${selectedLoot.name}`]: 1,
+              [`inventory.items.${selectedLoot.name}`]: amount,
             },
           },
           { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -215,7 +216,7 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${selectedLoot.name}**!`,
+              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${amount} ${selectedLoot.name}**!`,
               embeds: [embed],
             },
           });

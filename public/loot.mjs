@@ -43,9 +43,9 @@ export const monsters = [
     chance: 0.4,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/goblin.png',
     loot: [
-      { name: 'Rusty Sword', chance: 0.5 },
-      { name: 'Goblin Tooth', chance: 0.3 },
-      { name: 'Goblin Armour', chance: 0.2 },
+      { name: 'Rusty Sword', chance: 0.5, min: 1, max: 2 },
+      { name: 'Goblin Tooth', chance: 0.3, min: 1, max: 4 },
+      { name: 'Goblin Armour', chance: 0.2, min: 1, max: 1 },
     ],
   },
   {
@@ -54,9 +54,9 @@ export const monsters = [
     chance: 0.3,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/wolf.png',
     loot: [
-      { name: 'Wolf Pelt', chance: 0.6 },
-      { name: 'Wolf Fang', chance: 0.3 },
-      { name: 'Wolf Claw', chance: 0.1 },
+      { name: 'Wolf Pelt', chance: 0.6, min: 1, max: 3 },
+      { name: 'Wolf Fang', chance: 0.3, min: 1, max: 2 },
+      { name: 'Wolf Claw', chance: 0.1, min: 1, max: 3 },
     ],
   },
   {
@@ -65,10 +65,10 @@ export const monsters = [
     chance: 0.1,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/dragon.png',
     loot: [
-      { name: 'Dragon Scale', chance: 0.4 },
-      { name: 'Dragon Bone', chance: 0.3 },
-      { name: 'Dragon Tooth', chance: 0.2 },
-      { name: 'Dragon Egg', chance: 0.1 },
+      { name: 'Dragon Scale', chance: 0.4, min: 1, max: 3 },
+      { name: 'Dragon Bone', chance: 0.3, min: 1, max: 2 },
+      { name: 'Dragon Tooth', chance: 0.2, min: 1, max: 2 },
+      { name: 'Dragon Egg', chance: 0.1, min: 1, max: 1 },
     ],
   },
   {
@@ -77,9 +77,9 @@ export const monsters = [
     chance: 0.2,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/giant-spider.png',
     loot: [
-      { name: 'Spider Silk', chance: 0.5 },
-      { name: 'Spider Leg', chance: 0.4 },
-      { name: 'Spider Venom', chance: 0.1 },
+      { name: 'Spider Silk', chance: 0.5, min: 1, max: 3 },
+      { name: 'Spider Leg', chance: 0.4, min: 1, max: 2 },
+      { name: 'Spider Venom', chance: 0.1, min: 1, max: 3 },
     ],
   },
 ];
