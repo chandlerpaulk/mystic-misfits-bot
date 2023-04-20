@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import './commands.mjs';
-import { actions, monsters, shopItems } from './public/loot.mjs'
+import { actions, creatures, shopItems } from './public/loot.mjs'
 import UserModel from './database.mjs';
 import express from 'express';
 import {
@@ -43,7 +43,7 @@ app.post('/interactions', async function (req, res) {
         mine: '1096060784389398578', // This is the id of #mithril-mines
         chop: '1096060820573655070', // This is the id of #enchanted-forest
         fish: '1096061508015882304', // This is the id of #celestial-river
-        hunt: '1097517896621637712', // This is the id of #monster-hunt
+        hunt: '1097517896621637712', // This is the id of #creature-hunt
       };
 
       // Loot modifer for when user is battling
@@ -150,15 +150,15 @@ app.post('/interactions', async function (req, res) {
         // Get the user's nickname or fallback to the username if the nickname is not set
         const displayName = req.body.member ? (req.body.member.nick || user.username) : user.username;
 
-        // Select a random monster to encounter
+        // Select a random creature to encounter
         let randomValue = Math.random();
         let selectedMonster;
-        for (const monster of monsters) {
-          if (randomValue < monster.chance) {
-            selectedMonster = monster;
+        for (const creature of creatures) {
+          if (randomValue < creature.chance) {
+            selectedMonster = creature;
             break;
           }
-          randomValue -= monster.chance;
+          randomValue -= creature.chance;
         }
 
         // Calculate health loss
@@ -192,11 +192,11 @@ app.post('/interactions', async function (req, res) {
         // Check if the user has any health left
         const remainingHealth = userDoc.inventory.health;
 
-        // Prepare embed for the monster image
+        // Prepare embed for the creature image
         const embed = {
           title: `Encounter: ${selectedMonster.name}`,
           image: {
-            url: selectedMonster.imageUrl, // You should add an imageUrl property to your monster objects
+            url: selectedMonster.imageUrl, // You should add an imageUrl property to your creature objects
           },
         };
 

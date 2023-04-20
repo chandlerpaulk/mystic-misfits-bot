@@ -35,8 +35,8 @@ export const actions = {
   ],
 };
 
-// Create monsters array
-export const monsters = [
+// Create creatures array
+export const creatures = [
   {
     name: 'Goblin',
     health: 10,
@@ -46,6 +46,93 @@ export const monsters = [
       { name: 'Rusty Sword', chance: 0.5, min: 1, max: 2 },
       { name: 'Goblin Tooth', chance: 0.3, min: 1, max: 4 },
       { name: 'Goblin Armour', chance: 0.2, min: 1, max: 1 },
+    ],
+  },
+  {
+    name: 'Deer',
+    health: 8,
+    chance: 0.06,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/deer.png',
+    loot: [
+      { name: 'Deer Antler', chance: 0.4, min: 1, max: 2 },
+      { name: 'Deer Hide', chance: 0.5, min: 1, max: 4 },
+      { name: 'Deer Meat', chance: 0.1, min: 1, max: 3 },
+    ],
+  },
+  {
+    name: 'Grouse',
+    health: 5,
+    chance: 0.05,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/grouse.png',
+    loot: [
+      { name: 'Grouse Feather', chance: 0.6, min: 1, max: 3 },
+      { name: 'Grouse Meat', chance: 0.4, min: 1, max: 2 },
+    ],
+  },
+  {
+    name: 'Fox',
+    health: 7,
+    chance: 0.05,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/fox.png',
+    loot: [
+      { name: 'Fox Pelt', chance: 0.5, min: 1, max: 2 },
+      { name: 'Fox Tail', chance: 0.4, min: 1, max: 1 },
+      { name: 'Fox Meat', chance: 0.1, min: 1, max: 2 },
+    ],
+  },
+  {
+    name: 'Raccoon',
+    health: 6,
+    chance: 0.04,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/raccoon.png',
+    loot: [
+      { name: 'Raccoon Pelt', chance: 0.5, min: 1, max: 2 },
+      { name: 'Raccoon Tail', chance: 0.4, min: 1, max: 1 },
+      { name: 'Raccoon Meat', chance: 0.1, min: 1, max: 2 },
+    ],
+  },
+  {
+    name: 'Bear',
+    health: 25,
+    chance: 0.03,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/bear.png',
+    loot: [
+      { name: 'Bear Pelt', chance: 0.5, min: 1, max: 1 },
+      { name: 'Bear Claw', chance: 0.3, min: 1, max: 2 },
+      { name: 'Bear Meat', chance: 0.2, min: 1, max: 4 },
+    ],
+  },
+  {
+    name: 'Rabbit',
+    health: 3,
+    chance: 0.07,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/rabbit.png',
+    loot: [
+      { name: 'Rabbit Pelt', chance: 0.6, min: 1, max: 2 },
+      { name: 'Rabbit Foot', chance: 0.3, min: 1, max: 1 },
+      { name: 'Rabbit Meat', chance: 0.1, min: 1, max: 2 },
+    ],
+  },
+  {
+    name: 'Squirrel',
+    health: 2,
+    chance: 0.08,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/squirrel.png',
+    loot: [
+      { name: 'Squirrel Pelt', chance: 0.5, min: 1, max: 1 },
+      { name: 'Squirrel Tail', chance: 0.4, min: 1, max: 1 },
+      { name: 'Squirrel Meat', chance: 0.1, min: 1, max: 1 },
+    ],
+  },
+  {
+    name: 'Boar',
+    health: 15,
+    chance: 0.02,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/boar.png',
+    loot: [
+      { name: 'Boar Tusk', chance: 0.4, min: 1, max: 2 },
+      { name: 'Boar Hide', chance: 0.4, min: 1, max: 1 },
+      { name: 'Boar Meat', chance: 0.2, min: 1, max: 3 },
     ],
   },
   {
