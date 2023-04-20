@@ -38,6 +38,21 @@ export const actions = {
 // Create creatures array
 export const creatures = [
   {
+    name: 'forest floor',
+    health: 0,
+    chance: 0.5,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/forest.png',
+    loot: [
+      { name: 'missed action', tier: 'Missed', chance: 0, min: 1, max: 1, value: 0 },
+      { name: 'stick', tier: 'Common', chance: 0, min: 0, max: 0, value: 0.25 },
+      { name: 'stone', tier: 'Common', chance: 0, min: 0, max: 0, value: 5 },
+      { name: 'mushroom', tier: 'Uncommon', chance: 0, min: 0, max: 0, value: 6 },
+      { name: 'berry', tier: 'Uncommon', chance: 0, min: 0, max: 0, value: 10 },
+      { name: 'herb', tier: 'Uncommon', chance: 0, min: 0, max: 0, value: 10 },
+      { name: 'worm', tier: 'Uncommon', chance: 0, min: 0, max: 0, value: 0.10}
+    ]
+  },
+  {
     name: 'Goblin',
     health: 10,
     chance: 0.4,
@@ -105,7 +120,7 @@ export const creatures = [
   {
     name: 'Rabbit',
     health: 3,
-    chance: 0.07,
+    chance: 0.20,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/rabbit.png',
     loot: [
       { name: 'Rabbit Pelt', chance: 0.6, min: 1, max: 2 },
@@ -116,7 +131,7 @@ export const creatures = [
   {
     name: 'Squirrel',
     health: 2,
-    chance: 0.08,
+    chance: 0.15,
     imageUrl: 'https://mystic-misfits-bot.onrender.com/img/squirrel.png',
     loot: [
       { name: 'Squirrel Pelt', chance: 0.5, min: 1, max: 1 },
@@ -147,16 +162,25 @@ export const creatures = [
     ],
   },
   {
-    name: 'Dragon',
+    name: 'Ancient Rune',
     health: 50,
     chance: 0.001,
-    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/dragon.png',
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/ancient-rune.png',
     loot: [
       { name: 'Dragon Scale', chance: 0.4, min: 1, max: 3 },
       { name: 'Dragon Bone', chance: 0.3, min: 1, max: 2 },
       { name: 'Dragon Tooth', chance: 0.2, min: 1, max: 2 },
       { name: 'Dragon Egg', chance: 0.1, min: 1, max: 1 },
     ],
+  },
+  {
+    name: 'False Rune',
+    health: 50,
+    chance: 0.01,
+    imageUrl: 'https://mystic-misfits-bot.onrender.com/img/false-rune.png',
+    loot: [
+      { name: 'False Rune'}
+    ]
   },
   {
     name: 'Giant Spider',

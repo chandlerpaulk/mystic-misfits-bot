@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import './commands.mjs';
-import { actions, creatures, shopItems } from './public/loot.mjs'
+import { actions, creatures, shopItems } from './loot.mjs'
 import UserModel from './database.mjs';
 import express from 'express';
 import {
@@ -238,6 +238,50 @@ app.post('/interactions', async function (req, res) {
         });
       }
 
+      // // "inventory" command
+      // if (name === 'inventory') {
+      //   const userId = user.id;
+
+      //   try {
+      //     const userRecord = await UserModel.findOne({ userId: userId });
+      //     const inventory = userRecord ? userRecord.inventory : {};
+
+      //     // Create an inventory display string
+      //     let inventoryDisplay = '';
+      //     let currencyDisplay = inventory.currency || 0;
+      //     let healthBar = inventory.health || 100;
+      //     let staminaBar = inventory.stamina || 100;
+
+      //     // Convert the Map to a plain JavaScript object
+      //     const itemsObject = Object.fromEntries(inventory.items || {});
+
+      //     for (const [item, amount] of Object.entries(itemsObject)) {
+      //       inventoryDisplay += `**${item}**: ${amount}\n`;
+      //     }
+
+      //     // If inventory is empty, display a message
+      //     if (!inventoryDisplay) {
+      //       inventoryDisplay = 'Your inventory is empty.';
+      //     }
+
+      //     return res.send({
+      //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      //       data: {
+      //         content: `Your inventory:\n**Currency**: ${currencyDisplay}\n**Health**: ${healthBar}\n**Stamina**: ${staminaBar}\n${inventoryDisplay}`,
+      //         flags: 64, // Make the message ephemeral (Private only to the user themselves)
+      //       },
+      //     });
+      //   } catch (err) {
+      //     console.error('Error fetching user inventory:', err);
+      //     return res.send({
+      //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      //       data: {
+      //         content: `An error occurred while fetching your inventory. Please try again later.`,
+      //         flags: 64, // Make the message ephemeral
+      //       },
+      //     });
+      //   }
+      // }
       // "inventory" command
       if (name === 'inventory') {
         const userId = user.id;
@@ -255,8 +299,36 @@ app.post('/interactions', async function (req, res) {
           // Convert the Map to a plain JavaScript object
           const itemsObject = Object.fromEntries(inventory.items || {});
 
+          const categories = {
+            weapons: [],
+            armor: [],
+            consumables: [],
+            materials: [],
+            misc: [],
+          };
+
           for (const [item, amount] of Object.entries(itemsObject)) {
-            inventoryDisplay += `**${item}**: ${amount}\n`;
+            // Assign the items to the corresponding categories
+            // This is an example; you can add more categories and items as needed
+            if (['Rusty Sword', 'Dragon Tooth'].includes(item)) {
+              categories.weapons.push(`**${item}**: ${amount}`);
+            } else if (['Goblin Armour', 'Wolf Pelt'].includes(item)) {
+              categories.armor.push(`**${item}**: ${amount}`);
+            } else if (['Mushroom', 'Berry', 'Herb'].includes(item)) {
+              categories.consumables.push(`**${item}**: ${amount}`);
+            } else if (['Stick', 'Stone', 'Spider Silk'].includes(item)) {
+              categories.materials.push(`**${item}**: ${amount}`);
+            } else {
+              categories.misc.push(`**${item}**: ${amount}`);
+            }
+          }
+
+          // Format the inventory display
+          for (const [category, items] of Object.entries(categories)) {
+            if (items.length > 0) {
+              inventoryDisplay += `\n**${category.charAt(0).toUpperCase() + category.slice(1)}**\n`;
+              inventoryDisplay += items.join('\n');
+            }
           }
 
           // If inventory is empty, display a message
@@ -267,7 +339,7 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `Your inventory:\n**Currency**: ${currencyDisplay}\n**Health**: ${healthBar}\n**Stamina**: ${staminaBar}\n${inventoryDisplay}`,
+              content: `Your inventory:\n**Currency**: ${currencyDisplay}\n**Health**: ${healthBar}\n**Stamina**: ${staminaBar}${inventoryDisplay}`,
               flags: 64, // Make the message ephemeral (Private only to the user themselves)
             },
           });
@@ -282,6 +354,7 @@ app.post('/interactions', async function (req, res) {
           });
         }
       }
+
 
       //"roll" command
       if (name === 'roll') {
