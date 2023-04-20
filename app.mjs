@@ -134,7 +134,7 @@ app.post('/interactions', async function (req, res) {
         });
       }
 
-      if (name === 'hunt') {
+      if (name === 'explore') {
         // Check if the command is being executed in the allowed channel
         const channelId = req.body.channel_id;
         if (allowedChannels[name] !== channelId) {
@@ -163,6 +163,7 @@ app.post('/interactions', async function (req, res) {
 
         // Calculate health loss
         const healthLoss = Math.floor(Math.random() * (selectedMonster.health / 2)) + 1;
+        const manaLoss = selectedMonster.manaLoss;
 
         // Select a random loot item
         let lootRandomValue = Math.random();
@@ -183,6 +184,7 @@ app.post('/interactions', async function (req, res) {
           {
             $inc: {
               'inventory.health': -healthLoss,
+              'inventory.mana': -manaLoss,
               [`inventory.items.${selectedLoot.name}`]: amount,
             },
           },
@@ -191,6 +193,7 @@ app.post('/interactions', async function (req, res) {
 
         // Check if the user has any health left
         const remainingHealth = userDoc.inventory.health;
+        const remainingMana = userDoc.inventory.mana;
 
         // Prepare embed for the creature image
         const embed = {
@@ -201,6 +204,31 @@ app.post('/interactions', async function (req, res) {
         };
 
         console.log('Embed object:', embed);
+
+        let response;
+        switch (selectedLoot.tier) {
+          case 'Missed':
+            response = `didn't find anything.`;
+            break;
+          case 'Common':
+            response = `lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also found :white_large_square: **${amount} ${selectedLoot.name}**!`;
+            break;
+          case 'Uncommon':
+            response = `lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also grabbed :green_square: **${amount} ${selectedLoot.name}**!`;
+            break;
+          case 'Rare':
+            response = `lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also got :blue_square: **${amount} ${selectedLoot.name}**!`;
+            break;
+          case 'Epic':
+            response = `lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also uncovered :purple_square: **${amount} ${selectedLoot.name}**!`;
+            break;
+          case 'Legendary':
+            response = `lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received :large_orange_diamond: **${amount} ${selectedLoot.name}**!`;
+            break;
+          case 'Mythic':
+            response = `lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also unveiled :yellow_circle: **${amount} ${selectedLoot.name}**!`;
+            break;
+        }
 
         if (remainingHealth <= 0) {
           // Notify the user that they have been defeated
@@ -216,7 +244,7 @@ app.post('/interactions', async function (req, res) {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `**${displayName}** encountered a **${selectedMonster.name}** and lost **${healthLoss}** health points. You have **${remainingHealth}** health points left. You also received **${amount} ${selectedLoot.name}**!`,
+              content: `**${displayName}** encountered a **${selectedMonster.name}** and ${response}`,
               embeds: [embed],
             },
           });

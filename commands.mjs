@@ -28,9 +28,9 @@ const ACTION_COMMANDS = ACTIONS.map((action) => ({
   type: 1,
 }));
 
-const HUNT_COMMAND = {
-  name: 'hunt',
-  description: 'Go on a hunt to obtain resources.',
+const EXPLORE_COMMAND = {
+  name: 'explore',
+  description: 'Go on an adventure to obtain resources, hunt animals, and fight creatures.',
   type: 1,
 };
 
@@ -127,7 +127,7 @@ const SHOP_COMMAND = {
 
 const ALL_COMMANDS = [
   WELCOME_COMMAND,
-  HUNT_COMMAND,
+  EXPLORE_COMMAND,
   ROLL_COMMAND,
   ...ACTION_COMMANDS,
   INVENTORY_COMMAND,
