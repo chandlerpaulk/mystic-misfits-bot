@@ -396,6 +396,7 @@ app.post('/interactions', async function (req, res) {
 
       if (name === 'use') {
         const userId = user.id;
+        const options = req.body.data.options;
         const item = options[0].value;
       
         try {
