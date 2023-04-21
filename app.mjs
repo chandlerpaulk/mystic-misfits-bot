@@ -408,11 +408,11 @@ app.post('/interactions', async function (req, res) {
           if (itemAmount > 0) {
             inventory.items.set(item, itemAmount - 1);
       
-            if (item === 'Herb') {
+            if (item === 'herb') {
               inventory.health = Math.min(100, inventory.health + 10);
-            } else if (item === 'Mushroom') {
+            } else if (item === 'mushroom') {
               inventory.stamina = Math.min(100, inventory.stamina + 10);
-            } else if (item === 'Berry') {
+            } else if (item === 'berry') {
               inventory.health = Math.min(100, inventory.health + 5);
               inventory.stamina = Math.min(100, inventory.stamina + 5);
             }
