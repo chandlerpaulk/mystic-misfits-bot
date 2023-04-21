@@ -51,9 +51,9 @@ const USE_COMMAND = {
       type: 3, // String type
       required: true,
       choices: [
-        { name: 'Herb', value: 'Herb' },
-        { name: 'Mushroom', value: 'Mushroom' },
-        { name: 'Berry', value: 'Berry' },
+        { name: 'Herb', value: 'herb' },
+        { name: 'Mushroom', value: 'mushroom' },
+        { name: 'Berry', value: 'berry' },
       ],
     },
   ],
